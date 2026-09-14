@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1a0b2e" />
+  <meta name="description" content="A magical birthday surprise filled with love, memories and wishes." />
+  <title>🎂 Happy Birthday My Love ❤️</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="./Birthday.css" />
+
+  <style>
+    .story-section {
+      padding: 30px 20px 80px;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .story-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      aspect-ratio: 4 / 5;
+      border: 2px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+      cursor: pointer;
+    }
+
+    .story-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: #ff2d75;
+      box-shadow: 0 20px 35px rgba(255,45,117,0.25);
+    }
+
+    .story-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .lb-quote {
+      font-family: 'Dancing Script', cursive;
+      font-size: 24px;
+      color: #ffb2d1;
+      max-width: 480px;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .lb-content img {
+      opacity: 1;
+      transform: translateX(0);
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+
+    .lb-content img.lb-slide-out-left {
+      animation: slideOutLeft 0.7s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    .lb-content img.lb-slide-out-right {
+      animation: slideOutRight 0.7s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    .lb-content img.lb-slide-in-right {
+      animation: slideInRight 0.7s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    .lb-content img.lb-slide-in-left {
+      animation: slideInLeft 0.7s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    @keyframes slideOutLeft {
+      0% { transform: translateX(0); opacity: 1; }
+      100% { transform: translateX(-30%); opacity: 0; }
+    }
+
+    @keyframes slideOutRight {
+      0% { transform: translateX(0); opacity: 1; }
+      100% { transform: translateX(30%); opacity: 0; }
+    }
+
+    @keyframes slideInRight {
+      0% { transform: translateX(30%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideInLeft {
+      0% { transform: translateX(-30%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       PRELOADER
+  ============================================================= -->
+  <div id="preloader">
+    <div class="heart-loader">❤️</div>
+    <p>Loading Love...</p>
+  </div>
+
+  <!-- ============================================================
+       CANVAS LAYERS
+  ============================================================= -->
+  <canvas id="clickCanvas"></canvas>
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- ============================================================
+       BACKGROUND EFFECTS
+  ============================================================= -->
+  <div id="heartRain"></div>
+  <div class="float-hearts-bg" id="floatHeartsBg"></div>
+
+  <!-- ============================================================
+       CELEBRATION OVERLAY
+  ============================================================= -->
+  <div class="celebration-overlay" id="celebrationOverlay">
+    <div class="popup">
+      <div class="popup-cake">🎂</div>
+      <h2>🎉 Happy Birthday! 🎉</h2>
+      <p id="popupText">
+        To the most beautiful soul in the universe.<br />
+        Every day with you is a blessing.<br />
+        I love you more than all the stars in the sky. ❤️
+      </p>
+      <button class="close-btn" onclick="closeCelebration()">
+        <i class="fas fa-heart" style="margin-right:8px;"></i> I Love You
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MUSIC BUTTON
+  ============================================================= -->
+  <button id="musicBtn" class="music-btn" title="Play / Pause music" aria-label="Toggle music">
+    <i class="fas fa-music"></i>
+  </button>
+  <audio id="bgMusic" loop preload="none"></audio>
+
+  <!-- ============================================================
+       NAVBAR
+  ======================================================    ======= -->
+  <nav class="navbar" id="navbar">
+    <a href="#home" class="nav-logo">
+      <i class="fas fa-heart"></i> <span id="navName">Her</span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#cake">Cake</a></li>
+      <li><a href="#gallery">Memories</a></li>
+      <li><a href="#gifs">GIFs</a></li>
+      <li><a href="#reasons">Reasons</a></li>
+      <li><a href="#timeline">Journey</a></li>
+      <li><a href="#quotes">Notes</a></li>
+      <li><a href="#message">Wish</a></li>
+    </ul>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>
+
+  <!-- ============================================================
+       MAIN CONTENT
+  ============================================================= -->
+  <div class="main-content">
+
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="home">
+      <div class="glow-ring"></div>
+
+      <!-- floating balloons inside hero -->
+      <div class="balloon-layer" id="balloonLayer"></div>
+
+      <div class="badge">
+        <i class="fas fa-cake-candles" style="margin-right:8px;color:#ff2d75;"></i>
+        <span id="dobBadge">14 OCTOBER</span>
+      </div>
+
+      <h1>Happy Birthday</h1>
+      <div class="name-glow" id="herName">My Princess Monuuuu Baeee...👑</div>
+      <p class="sub-title">— You are my everything —</p>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-num" id="statAge">00</div>
+          <div class="stat-label">Years Young</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="statDays">00</div>
+          <div class="stat-label">Days Together</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="statAlive">00</div>
+          <div class="stat-label">Days Alive</div>
+        </div>
+      </div>
+
+      <!-- Countdown -->
+      <div class="countdown-wrap" id="countdownWrap">
+        <div class="cd-item">
+          <div class="num" id="cdDays">00</div>
+          <div class="label">Days</div>
+        </div>
+        <div class="cd-item">
+          <div class="num" id="cdHours">00</div>
+          <div class="label">Hours</div>
+        </div>
+        <div class="cd-item">
+          <div class="num" id="cdMins">00</div>
+          <div class="label">Mins</div>
+        </div>
+        <div class="cd-item">
+          <div class="num" id="cdSecs">00</div>
+          <div class="label">Secs</div>
+        </div>
+      </div>
+
+      <p class="cd-note" id="cdNote">until your special day 💖</p>
+
+      <div class="hero-actions">
+        <a href="#gallery" class="btn-primary">
+          <i class="fas fa-images"></i> Our Memories
+        </a>
+        <button class="btn-ghost" onclick="triggerCelebration()">
+          <i class="fas fa-gift"></i> Surprise!
+        </button>
+      </div>
+
+      <div class="scroll-hint">
+        <span>Scroll</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </section>
+
+    <!-- ================= CAKE ================= -->
+    <section class="cake-section" id="cake">
+      <div class="wish-heading reveal">
+        <span class="wish-kicker">A little birthday magic</span>
+        <h2 class="section-title">🎂 Make a Wish</h2>
+        <p class="section-sub">Close your eyes, make a wish and tap the cake</p>
+      </div>
+
+      <div class="cake-card reveal">
+        <div class="cake-wrap">
+          <div class="cake" id="cakeEl">
+            <img class="cake-photo" src="./cake.jpg" alt="Birthday cake for Mouni" />
+          </div>
+        </div>
+
+        <div class="wish-copy">
+          <span class="wish-label">Your birthday wish</span>
+          <p>May this year bring you gentle days, bright smiles and every beautiful thing your heart is waiting for.</p>
+        </div>
+
+        <button class="birthday-btn" id="blowBtn">
+          <i class="fas fa-wand-magic-sparkles"></i> Make a Wish
+        </button>
+
+        <p class="wish-msg" id="wishMsg" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- ================= GALLERY ================= -->
+    <section class="gallery-section" id="gallery">
+      <h2 class="section-title reveal">✨ Memories ✨</h2>
+      <p class="section-sub reveal">Click &amp; explore our beautiful moments</p>
+
+      <!-- 3D Carousel -->
+      <div class="carousel-3d reveal" id="carousel3d">
+        <div class="carousel-track" id="carouselTrack">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <div class="carousel-controls reveal">
+        <button id="carouselPrev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+        <button id="carouselNext" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+      </div>
+
+    </section>
+
+    <!-- ================= EXTRA LOVE ALBUM 1 ================= -->
+    <section class="story-section">
+      <h2 class="section-title reveal">💞 Our Favourite Frames</h2>
+      <p class="section-sub reveal">A little peek into our beautiful journey</p>
+
+      <div class="story-grid reveal">
+        <div class="story-card" data-url="./nithya1.jpg" data-caption="Our first memory together" data-quote="Every moment with you feels like a beautiful beginning."><img src="./nithya1.jpg" alt="Memory 1" loading="lazy" /></div>
+        <div class="story-card" data-url="./nithya2.jpg" data-caption="That beautiful smile" data-quote="Your smile is the reason my heart always feels at home."><img src="./nithya2.jpg" alt="Memory 2" loading="lazy" /></div>
+        <div class="story-card" data-url="./mouni1.jpg" data-caption="Love in every glance" data-quote="One look from you and my whole world turns golden."><img src="./mouni1.jpg" alt="Memory 3" loading="lazy" /></div>
+        <div class="story-card" data-url="./mouni2.jpg" data-caption="Perfect time together" data-quote="Even the quietest moments with you feel like magic."><img src="./mouni2.jpg" alt="Memory 4" loading="lazy" /></div>
+      </div>
+    </section>
+
+    <!-- ================= EXTRA LOVE ALBUM 2 ================= -->
+    <section class="story-section">
+      <h2 class="section-title reveal">✨ More of Us</h2>
+      <p class="section-sub reveal">Every smile, every moment, every beat of love</p>
+
+      <div class="story-grid reveal">
+        <div class="story-card" data-url="./nithya3.jpg" data-caption="Sweetest moments" data-quote="The best memories are the ones made with you."><img src="./nithya3.jpg" alt="Memory 5" loading="lazy" /></div>
+        <div class="story-card" data-url="./nithya4.jpg" data-caption="Forever and always" data-quote="Forever is not long enough when it comes to us."><img src="./nithya4.jpg" alt="Memory 6" loading="lazy" /></div>
+        <div class="story-card" data-url="./nithya5.jpg" data-caption="Little moments, big love" data-quote="It’s the tiny moments with you that mean the most."><img src="./nithya5.jpg" alt="Memory 7" loading="lazy" /></div>
+        <div class="story-card" data-url="./nithya6.jpg" data-caption="Birthday magic" data-quote="You are my favourite kind of happiness and my forever wish."><img src="./nithya6.jpg" alt="Memory 8" loading="lazy" /></div>
+      </div>
+    </section>
+
+    <!-- ================= GIFS ================= -->
+    <section class="gif-section" id="gifs">
+      <h2 class="section-title reveal">💫 Birthday Vibes</h2>
+      <p class="section-sub reveal">Little animations that made me think of you</p>
+
+      <div class="gif-grid" id="gifGrid">
+        <!-- Injected by JS -->
+      </div>
+    </section>
+
+    <!-- ================= REASONS ================= -->
+    <section class="reasons-section" id="reasons">
+      <h2 class="section-title reveal">💖 Reasons I Love You</h2>
+      <p class="section-sub reveal">Tap a card to flip it</p>
+
+      <div class="reasons-grid" id="reasonsGrid">
+        <!-- Injected by JS -->
+      </div>
+    </section>
+
+    <!-- ================= TIMELINE ================= -->
+    <section class="timeline-section" id="timeline">
+      <h2 class="section-title reveal">🕰️ Our Journey</h2>
+      <p class="section-sub reveal">Every moment with you is my favourite memory</p>
+
+      <div class="timeline" id="timelineList">
+        <!-- Injected by JS -->
+      </div>
+    </section>
+
+    <!-- ================= QUOTES ================= -->
+    <section class="quotes-section" id="quotes">
+      <h2 class="section-title reveal">💕 Love Notes 💕</h2>
+      <p class="section-sub reveal">Words that speak my heart</p>
+
+      <div class="quote-box reveal">
+        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+        <div class="quote-text" id="quoteText">
+          <span id="typewriter"></span><span class="cursor"></span>
+        </div>
+        <div class="quote-author" id="quoteAuthor">—</div>
+      </div>
+
+      <div class="quote-dots" id="quoteDots"></div>
+    </section>
+
+    <!-- ================= MESSAGE + GIFT ================= -->
+    <section class="message-section" id="message">
+      <h2 class="section-title reveal">🎂 A Special Wish</h2>
+
+      <p class="reveal">
+        On this beautiful day, I just want to remind you how much you mean to me.
+        You are the light of my life, the reason I smile, and my forever favourite.
+        Happy Birthday, my love! May all your dreams come true. 🌹
+      </p>
+
+      <!-- Gift box -->
+      <div class="gift-wrap reveal">
+        <div class="gift-box" id="giftBox">
+          <div class="gift-lid"></div>
+          <div class="gift-body"><i class="fas fa-heart"></i></div>
+          <div class="gift-ribbon"></div>
+        </div>
+        <p class="gift-hint" id="giftHint">Tap the gift 🎁</p>
+        <div class="gift-message" id="giftMessage">
+          <h3>💝 A Promise</h3>
+          <p>
+            I promise to stand beside you in every season of life — to laugh with you,
+            cry with you, grow with you and love you a little more every single day.
+            You are my forever. ♾️❤️
+          </p>
+        </div>
+      </div>
+
+      <button class="birthday-btn reveal" onclick="triggerCelebration()">
+        <i class="fas fa-gift"></i> Surprise Me Again!
+      </button>
+    </section>
+
+    <!-- ================= SHARE ================= -->
+    <section class="share-section" id="share">
+      <h2 class="section-title reveal">📤 Spread the Love</h2>
+      <p class="section-sub reveal">Send birthday wishes to her</p>
+
+      <div class="love-proposal reveal">
+        <div class="proposal-photos">
+          <img src="./love.jpg" alt="A cute birthday love moment" loading="lazy" />
+          <img src="./Iloveyou.jpg" alt="A cute cuddle illustration" loading="lazy" />
+        </div>
+        <span class="proposal-heart" aria-hidden="true">💗</span>
+        <p class="proposal-question">I love you potti... Do you love me too? <span aria-hidden="true">🥺</span></p>
+        <div class="proposal-actions" id="proposalActions">
+          <button class="proposal-btn yes-btn" id="yesBtn" type="button">
+            <i class="fas fa-heart"></i> Yes
+          </button>
+          <button class="proposal-btn no-btn" id="noBtn" type="button">
+            <i class="fas fa-face-sad-tear"></i> No
+          </button>
+        </div>
+        <p class="no-note" id="noNote" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <div class="love-popup" id="lovePopup" role="dialog" aria-modal="true" aria-labelledby="lovePopupTitle">
+      <div class="love-popup-card">
+        <button class="love-popup-close" id="lovePopupClose" type="button" aria-label="Close love message">
+          <i class="fas fa-xmark"></i>
+        </button>
+        <div class="popup-burst" aria-hidden="true">💖 ✨ 💕</div>
+        <img src="./Iloveyou.jpg" alt="Cute couple hugging" />
+        <h2 id="lovePopupTitle">I knew it! 💖</h2>
+        <p>My heart is doing a happy little dance. I love you forever and ever! 🥰</p>
+        <button class="birthday-btn" id="lovePopupDone" type="button">
+          <i class="fas fa-heart"></i> Always Yours
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+      <p class="footer-script" id="footerName">Happy Birthday, My Love ❤️</p>
+      <p class="footer-sub">Made with love for you ❤️<br /><span class="footer-signature">— Your hubby, Nithya</span></p>
+
+      <p class="footer-copy">© <span id="year"></span> — Forever Yours</p>
+    </footer>
+  </div>
+
+  <!-- ============================================================
+       LIGHTBOX
+  ============================================================= -->
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close" id="lbClose" aria-label="Close"><i class="fas fa-times"></i></button>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+
+    <div class="lb-content">
+      <img id="lbImg" src="" alt="Memory" />
+      <div class="lb-caption">
+        <span id="lbCaption"></span>
+        <span id="lbQuote" class="lb-quote"></span>
+        <a id="lbOpen" href="#" target="_blank" rel="noopener noreferrer" class="lb-open">
+          <i class="fas fa-up-right-from-square"></i> Open full size
+        </a>
+      </div>
+    </div>
+
+    <button class="lb-nav lb-next" id="lbNext" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+  </div>
+
+  <!-- ============================================================
+       SCROLL TO TOP
+  ============================================================= -->
+  <button id="scrollTop" class="scroll-top" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- External JavaScript -->
+  <script src="./Birthday.js"></script>
+</body>
+</html>
